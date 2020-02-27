@@ -7,16 +7,14 @@ public class Main {
     public static void main(String[] args) {
 
         // FOR TESTING
-        Account acc1 = new Account();
-        Account acc2 = new Account();
-        Account acc3 = new Account();
-        Account acc4 = new Account();
-
-
         AccountRepository ac = new AccountRepository();
+        Account acc1 = new Account(AccountRepository.searchMaxIndex());
         ac.save(acc1);
+        Account acc2 = new Account(AccountRepository.searchMaxIndex());
         ac.save(acc2);
+        Account acc3 = new Account(AccountRepository.searchMaxIndex());
         ac.save(acc3);
+        Account acc4 = new Account(AccountRepository.searchMaxIndex());
         ac.save(acc4);
 
         ac.deleteById(2);

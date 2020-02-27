@@ -9,15 +9,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AccountRepository {
-    private List<Account> accounts;
 
-    public AccountRepository() {
-        this.accounts = new LinkedList<>();
-    }
+    static final String  PATH_TO_ACCOUNT = "accounts.txt";
 
     public void save(Account account) {
-        try (FileWriter fw = new FileWriter("accounts.txt", true)) {
-            fw.write(String.valueOf(account.getIdAccount()) + "\t" + account.getBalance().toString() + "\t" + account.getStatus().toString() + "\n");
+        try (FileWriter fw = new FileWriter(PATH_TO_ACCOUNT, true)) {
+            fw.write(accountToString(account));
             System.out.println("Saving complete!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -26,84 +23,85 @@ public class AccountRepository {
 
     public List<Account> getAll() {
         List<Account> accounts = new LinkedList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))){
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String accountString[] = line.split("\t");
-                accounts.add(new Account(Long.parseLong(accountString[0]), new BigDecimal(accountString[1]), AccountStatus.valueOf(accountString[2])));
-                return accounts;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        List<String> accountString = readAccounts();
+        for (int i = 0; i < accountString.size(); i++) {
+            String line[] = accountString.get(i).split("\t");
+            accounts.add(stringToAccount(line));
         }
-        return null;
+        return accounts;
     }
 
     public Account getById(long id) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))){
-            String line;
-            String[] accountString;
-            String num = String.valueOf(id);
-            while ((line = reader.readLine()) != null) {
-                accountString = line.split("\t");
-                if (accountString[0].equals(num)) {
-                    return new Account(Long.parseLong(accountString[0]), new BigDecimal(accountString[1]), AccountStatus.valueOf(accountString[2]));
-                }
+        List<String> accountString = readAccounts();
+        for (int i = 0; i < accountString.size(); i++) {
+            String line[] = accountString.get(i).split("\t");
+            if (line[0].equals(String.valueOf(id))) {
+                return stringToAccount(line);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return null;
     }
 
     public void update(Account account) {
-        List<Account> accounts = new LinkedList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))){
-            String line;
-            String[] accountString;
-            while ((line = reader.readLine()) != null) {
-                accountString = line.split("\t");
-                if (accountString[0].equals(String.valueOf(account.getIdAccount()))) {
-                    accounts.add(account);
-                    continue;
-                }
-                accounts.add(new Account(Long.parseLong(accountString[0]), new BigDecimal(accountString[1]), AccountStatus.valueOf(accountString[2])));
+        List<String> accountString = readAccounts();
+        for (int i = 0; i < accountString.size(); i++) {
+            String line[] = accountString.get(i).split("\t");
+            if (line[0].equals(String.valueOf(account.getId()))) {
+                accountString.remove(i);
+                accountString.add(i, accountToString(account));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        writeToRepo(accountString);
+    }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("accounts.txt"))){
-            for (Account accountLine : accounts) {
-                writer.write(accountLine.getIdAccount() + "\t" + accountLine.getBalance().toString() + "\t" + accountLine.getStatus().toString() + "\n");
+    public void deleteById(long id) {
+        List<String> accountString = readAccounts();
+        for (int i = 0; i < accountString.size(); i++) {
+            String line[] = accountString.get(i).split("\t");
+            if (line[0].equals(String.valueOf(id))) {
+                accountString.remove(i);
+                line[2] = "DELETED";
+                accountString.add(i, line[0] + "\t" + line[1] + "\t" + line[2]);
+            }
+        }
+        writeToRepo(accountString);
+    }
+
+    private Account stringToAccount(String accountString[]) {
+        return new Account(Long.parseLong(accountString[0]), new BigDecimal(accountString[1]), AccountStatus.valueOf(accountString[2]));
+    }
+
+    private String accountToString(Account account) {
+        return String.valueOf(account.getId()) + "\t" + account.getBalance().toString() + "\t" + account.getStatus().toString() + "\n";
+    }
+
+    private void writeToRepo(List<String> accounts) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_TO_ACCOUNT))){
+            for (String accountLine : accounts) {
+                writer.write(accountLine + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteById(long id) {
-        List<Account> accounts = new LinkedList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))){
+    private static List<String> readAccounts() {
+        List<String> accounts = new LinkedList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_TO_ACCOUNT))){
             String line;
-            String[] accountString;
             while ((line = reader.readLine()) != null) {
-                accountString = line.split("\t");
-                if (accountString[0].equals(String.valueOf(id))) {
-                    continue;
-                }
-                accounts.add(new Account(Long.parseLong(accountString[0]), new BigDecimal(accountString[1]), AccountStatus.valueOf(accountString[2])));
+                accounts.add(line);
             }
+            return accounts;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
+    }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("accounts.txt"))){
-            for (Account accountLine : accounts) {
-                writer.write(accountLine.getIdAccount() + "\t" + accountLine.getBalance().toString() + "\t" + accountLine.getStatus().toString() + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static long searchMaxIndex() {
+        List<String> accountLines = readAccounts();
+
+        return accountLines.size() + 1;
     }
 }

@@ -5,18 +5,17 @@ import java.math.BigDecimal;
 public class Account {
     private BigDecimal balance;
     private AccountStatus status;
-    private long idAccount;
-    private static long id = 1;
+    private long id;
 
-    public Account() {
+
+    public Account(long id) {
         this.balance = new BigDecimal("0");
         this.status = AccountStatus.ACTIVE;
-        this.idAccount = id;
-        id++;
+        this.id =  id;
     }
 
-    public Account(long idAccount, BigDecimal balance, AccountStatus status) {
-        this.idAccount = idAccount;
+    public Account(long id, BigDecimal balance, AccountStatus status) {
+        this.id = id;
         this.balance = balance;
         this.status = status;
     }
@@ -25,9 +24,6 @@ public class Account {
         return balance;
     }
 
-    public long getIdAccount() {
-        return idAccount;
-    }
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
@@ -41,12 +37,12 @@ public class Account {
         this.status = status;
     }
 
-    public static long getId() {
-        return id;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public static void setId(long id) {
-        Account.id = id;
+    public long getId() {
+        return id;
     }
 
     @Override
@@ -54,7 +50,7 @@ public class Account {
         return "Account{" +
                 "balance=" + balance +
                 ", status=" + status +
-                ", idAccount=" + idAccount +
+                ", id=" + id +
                 '}';
     }
 }
