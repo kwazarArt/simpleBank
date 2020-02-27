@@ -19,9 +19,6 @@ public class Main {
         ac.save(acc3);
         ac.save(acc4);
 
-        ac.getAll();
-        System.out.println();
-        ac.getById(acc2.getIdAccount());
-        ac.update(acc2);
+        ac.deleteById(2);
     }
 }

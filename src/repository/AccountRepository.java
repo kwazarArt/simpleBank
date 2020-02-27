@@ -100,7 +100,7 @@ public class AccountRepository {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("accounts.txt"))){
             for (Account accountLine : accounts) {
-                writer.write(accountLine.getIdAccount() + accountLine.getBalance().toString() + accountLine.getStatus().toString() + "\n");
+                writer.write(accountLine.getIdAccount() + "\t" + accountLine.getBalance().toString() + "\t" + accountLine.getStatus().toString() + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
