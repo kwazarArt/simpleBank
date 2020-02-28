@@ -13,6 +13,7 @@ public class AccountRepository {
     static final String  PATH_TO_ACCOUNT = "src\\main\\resources\\files\\accounts.txt";
 
     public void save(Account account) {
+        account.setId(searchMaxIndex());
         try (FileWriter fw = new FileWriter(PATH_TO_ACCOUNT, true)) {
             fw.write(accountToString(account) + "\n");
             System.out.println("Saving complete!");
@@ -109,7 +110,6 @@ public class AccountRepository {
 
     public long searchMaxIndex() {
         List<String> accountLines = readAccounts();
-
         return accountLines.size() + 1;
     }
 }

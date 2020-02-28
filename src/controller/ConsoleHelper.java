@@ -1,12 +1,17 @@
 package controller;
 
-import view.ViewCustomer;
-import view.ViewerAccount;
+import view.AccountView;
+import view.CustomerView;
+import view.TransactionsView;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class ConsoleHelper {
+    private AccountView av = new AccountView();
+    private CustomerView cv = new CustomerView();
+    private TransactionsView tv = new TransactionsView();
+
     public void start() throws IOException {
         while (true) {
             String choice;
@@ -28,8 +33,7 @@ public class ConsoleHelper {
             }
             switch (x) {
                 case 1:
-                    ViewerAccount va = new ViewerAccount();
-                    va.viewAccountMenu();
+                    av.viewAccountMenu();
                     break;
                 case 2:
                     // for customers

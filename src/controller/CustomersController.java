@@ -2,6 +2,6 @@ package controller;
 
 import java.io.IOException;
 
-public class ControllerCustomer {
+public class CustomersController {
     public void controlCustomers () throws IOException {}
 }
