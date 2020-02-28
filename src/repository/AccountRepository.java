@@ -10,9 +10,9 @@ import java.util.List;
 
 public class AccountRepository {
 
-    static final String  PATH_TO_ACCOUNT = "accounts.txt";
+    static final String  PATH_TO_ACCOUNT = "src\\main\\resources\\files\\accounts.txt";
 
-    public static void save(Account account) {
+    public void save(Account account) {
         try (FileWriter fw = new FileWriter(PATH_TO_ACCOUNT, true)) {
             fw.write(accountToString(account) + "\n");
             System.out.println("Saving complete!");
@@ -21,7 +21,7 @@ public class AccountRepository {
         }
     }
 
-    public static List<Account> getAll() {
+    public List<Account> getAll() {
         List<Account> accounts = new LinkedList<>();
         List<String> accountString = readAccounts();
         for (int i = 0; i < accountString.size(); i++) {
@@ -31,7 +31,7 @@ public class AccountRepository {
         return accounts;
     }
 
-    public static Account getById(long id) {
+    public Account getById(long id) {
         List<String> accountString = readAccounts();
         for (int i = 0; i < accountString.size(); i++) {
             String line[] = accountString.get(i).split("\t");
@@ -43,19 +43,26 @@ public class AccountRepository {
         return null;
     }
 
-    public static void update(Account account) {
+    public void update(Account account) {
+        boolean checkChanges = false;
         List<String> accountString = readAccounts();
         for (int i = 0; i < accountString.size(); i++) {
             String line[] = accountString.get(i).split("\t");
             if (line[0].equals(String.valueOf(account.getId()))) {
                 accountString.remove(i);
                 accountString.add(i, accountToString(account));
+                checkChanges = true;
+                break;
             }
         }
-        writeToRepo(accountString);
+        if (checkChanges) {
+            writeToRepo(accountString);
+        } else {
+            System.out.println("ID not found");
+        }
     }
 
-    public static void deleteById(long id) {
+    public void deleteById(long id) {
         List<String> accountString = readAccounts();
         for (int i = 0; i < accountString.size(); i++) {
             String line[] = accountString.get(i).split("\t");
@@ -68,15 +75,15 @@ public class AccountRepository {
         writeToRepo(accountString);
     }
 
-    private static Account stringToAccount(String accountString[]) {
+    private Account stringToAccount(String accountString[]) {
         return new Account(Long.parseLong(accountString[0]), new BigDecimal(accountString[1]), AccountStatus.valueOf(accountString[2]));
     }
 
-    private static String accountToString(Account account) {
+    private String accountToString(Account account) {
         return String.valueOf(account.getId()) + "\t" + account.getBalance().toString() + "\t" + account.getStatus().toString();
     }
 
-    private static void writeToRepo(List<String> accounts) {
+    private void writeToRepo(List<String> accounts) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_TO_ACCOUNT))){
             for (String accountLine : accounts) {
                 writer.write(accountLine + "\n");
@@ -86,7 +93,7 @@ public class AccountRepository {
         }
     }
 
-    private static List<String> readAccounts() {
+    private List<String> readAccounts() {
         List<String> accounts = new LinkedList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH_TO_ACCOUNT))){
             String line;
@@ -100,7 +107,7 @@ public class AccountRepository {
         return null;
     }
 
-    public static long searchMaxIndex() {
+    public long searchMaxIndex() {
         List<String> accountLines = readAccounts();
 
         return accountLines.size() + 1;

@@ -1,13 +1,11 @@
 package controller;
 
-import view.Viewer;
-
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        Controller controller = new Controller();
-        controller.start();
+        ConsoleHelper ch = new ConsoleHelper();
+        ch.start();
     }
 }
