@@ -1,4 +1,4 @@
-package model;
+package main.java.com.kwazarart.simplebank.model;
 
 public enum TransactionStatus {
     FINISHED,

@@ -1,0 +1,2 @@
+1	aaaa	bbbb	0	0	ACTIVE
+2	ccc	ddd	null	null	null

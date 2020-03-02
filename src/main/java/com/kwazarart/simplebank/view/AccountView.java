@@ -1,8 +1,8 @@
-package view;
+package main.java.com.kwazarart.simplebank.view;
 
-import controller.AccountsController;
-import model.Account;
-import model.AccountStatus;
+import main.java.com.kwazarart.simplebank.controller.AccountsController;
+import main.java.com.kwazarart.simplebank.model.Account;
+import main.java.com.kwazarart.simplebank.model.AccountStatus;
 
 import java.math.BigDecimal;
 import java.util.InputMismatchException;
@@ -53,7 +53,7 @@ public class AccountView {
     }
 
     public void viewCreateAccount() {
-        ac.controlCreate(findAccount());
+        ac.controlCreate(newAccount());
     }
 
     public void viewPrintAccount() {
@@ -61,7 +61,7 @@ public class AccountView {
     }
 
     public void viewUpdateAccount() {
-        ac.controlUpdate(findAccount());
+        ac.controlUpdate(newAccount());
     }
 
     public void viewDeleteAccount() {
@@ -88,7 +88,7 @@ public class AccountView {
         return id;
     }
 
-    private Account findAccount() {
+    private Account newAccount() {
         BigDecimal balance;
         String status;
         while (true) {
@@ -109,6 +109,6 @@ public class AccountView {
                     status.equals(AccountStatus.FINISHED.toString())) break;
             else System.out.print("Wrong status. Try again: ");
         }
-        return new Account(0, balance, AccountStatus.valueOf(status));
+        return new Account(findId(), balance, AccountStatus.valueOf(status));
     }
 }

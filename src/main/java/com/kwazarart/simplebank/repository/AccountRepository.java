@@ -1,7 +1,7 @@
-package repository;
+package main.java.com.kwazarart.simplebank.repository;
 
-import model.Account;
-import model.AccountStatus;
+import main.java.com.kwazarart.simplebank.model.Account;
+import main.java.com.kwazarart.simplebank.model.AccountStatus;
 
 import java.io.*;
 import java.math.BigDecimal;

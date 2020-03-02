@@ -1,4 +1,4 @@
-package controller;
+package main.java.com.kwazarart.simplebank.controller;
 
 import java.io.IOException;
 

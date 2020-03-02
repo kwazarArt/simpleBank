@@ -1,4 +1,4 @@
-package model;
+package main.java.com.kwazarart.simplebank.model;
 
 import java.math.BigDecimal;
 
@@ -47,10 +47,6 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "balance=" + balance +
-                ", status=" + status +
-                ", id=" + id +
-                '}';
+        return id + "\t" + balance + "\t" + status;
     }
 }

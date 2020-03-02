@@ -1,4 +1,4 @@
-package model;
+package main.java.com.kwazarart.simplebank.model;
 
 import java.math.BigDecimal;
 import java.util.Date;

@@ -1,7 +1,7 @@
-package controller;
+package main.java.com.kwazarart.simplebank.controller;
 
-import model.Account;
-import repository.AccountRepository;
+import main.java.com.kwazarart.simplebank.model.Account;
+import main.java.com.kwazarart.simplebank.repository.AccountRepository;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package controller;
+package main.java.com.kwazarart.simplebank.view;
 
-import view.AccountView;
-import view.CustomerView;
-import view.TransactionsView;
+import main.java.com.kwazarart.simplebank.view.AccountView;
+import main.java.com.kwazarart.simplebank.view.CustomerView;
+import main.java.com.kwazarart.simplebank.view.TransactionsView;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -36,7 +36,7 @@ public class ConsoleHelper {
                     av.viewAccountMenu();
                     break;
                 case 2:
-                    // for customers
+                    cv.viewCustomerMenu();
                     break;
                 case 3:
                     // for transactions
