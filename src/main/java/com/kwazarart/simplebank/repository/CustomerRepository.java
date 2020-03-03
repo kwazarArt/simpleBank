@@ -11,6 +11,7 @@ import java.util.List;
 
 public class CustomerRepository {
     static final String  PATH_TO_CUSTOMERS = "src\\main\\resources\\files\\customers.txt";
+    public AccountRepository ar = new AccountRepository();
 
     public void save(Customer customer) {
         customer.setId(searchMaxIndex());
@@ -130,5 +131,13 @@ public class CustomerRepository {
     public long searchMaxIndex() {
         List<String> customersLines = readCustomers();
         return customersLines.size() + 1;
+    }
+
+    public AccountRepository getAr() {
+        return ar;
+    }
+
+    public List<Long> getAllIdAccount() {
+        return ar.getIdAccounts();
     }
 }

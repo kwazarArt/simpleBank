@@ -5,6 +5,7 @@ import main.java.com.kwazarart.simplebank.view.CustomerView;
 import main.java.com.kwazarart.simplebank.view.TransactionsView;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Scanner;
 
 public class ConsoleHelper {
@@ -12,7 +13,7 @@ public class ConsoleHelper {
     private CustomerView cv = new CustomerView();
     private TransactionsView tv = new TransactionsView();
 
-    public void start() throws IOException {
+    public void start() throws IOException, ParseException {
         while (true) {
             String choice;
             int x;
@@ -39,7 +40,7 @@ public class ConsoleHelper {
                     cv.viewCustomerMenu();
                     break;
                 case 3:
-                    // for transactions
+                    tv.viewTransactionsMenu();
                     break;
                 case 0:
                     return;

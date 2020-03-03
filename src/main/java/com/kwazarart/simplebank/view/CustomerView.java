@@ -8,6 +8,7 @@ import main.java.com.kwazarart.simplebank.repository.CustomerRepository;
 
 import java.math.BigDecimal;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class CustomerView {
@@ -63,7 +64,11 @@ public class CustomerView {
     }
 
     public void viewUpdateCustomer() {
-        cc.controlUpdate(newCustomer());
+        System.out.print("Customer. ");
+        long id = findId();
+        Customer customer = newCustomer();
+        customer.setId(id);
+        cc.controlUpdate(customer);
     }
 
     public void viewDeleteCustomer() {
@@ -72,13 +77,16 @@ public class CustomerView {
     }
 
     public void viewAllCustomer() {
-        cc.controlPrintAll();
+        List<Customer> list = cc.controlPrintAll();
+        for (Customer line : list) {
+            System.out.println(line.getId() + "\t" + line.getFirstName() + "\t" + line.getSecondName() + "\t" + line.getAccount());
+        }
     }
 
     private long findId() {
         long id;
         while (true) {
-            System.out.print("Enter ID account: ");
+            System.out.print("Enter ID: ");
             try {
                 Scanner sc = new Scanner(System.in);
                 id = sc.nextLong();
@@ -96,7 +104,19 @@ public class CustomerView {
         System.out.println();
         System.out.print("Enter second name: ");
         String secondName = new Scanner(System.in).nextLine();
-        Account account = new Account(0, new BigDecimal(0), AccountStatus.ACTIVE);
-        return new Customer(findId(), firstName, secondName, account);
+        List<Long> listIdAccount = cc.getIdAccounts();
+        System.out.println("Current ID account:");
+        for (Long id : listIdAccount) {
+            System.out.println("\t" + id);
+        }
+
+        long id = 0;
+        System.out.print("Choice ID account. ");
+        do{
+            id = findId();
+        } while (!listIdAccount.contains(id));
+
+        Account account = cc.getAccount(id);
+        return new Customer(0, firstName, secondName, account);
     }
 }

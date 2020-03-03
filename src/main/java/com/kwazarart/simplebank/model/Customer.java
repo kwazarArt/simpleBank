@@ -1,7 +1,5 @@
 package main.java.com.kwazarart.simplebank.model;
 
-import java.util.List;
-
 public class Customer {
     private String firstName;
     private String secondName;

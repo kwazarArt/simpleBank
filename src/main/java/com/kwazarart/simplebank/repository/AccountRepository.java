@@ -112,4 +112,13 @@ public class AccountRepository {
         List<String> accountLines = readAccounts();
         return accountLines.size() + 1;
     }
+
+    public List<Long> getIdAccounts() {
+        List<Long> listId = new LinkedList<>();
+        List<Account> listAccount = getAll();
+        for(Account account : listAccount) {
+            listId.add(account.getId());
+        }
+        return  listId;
+    }
 }

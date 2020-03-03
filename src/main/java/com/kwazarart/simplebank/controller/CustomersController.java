@@ -30,11 +30,15 @@ public class CustomersController {
         cr.deleteById(x);
     }
 
-    public void controlPrintAll() {
-        List<Customer> list = cr.getAll();
-        for (Customer line : list) {
-            System.out.println(line.getId() + "\t" + line.getFirstName() + "\t" + line.getSecondName() + "\t" + line.getAccount());
-        }
+    public List<Customer> controlPrintAll() {
+        return cr.getAll();
     }
 
+    public List<Long> getIdAccounts() {
+        return cr.getAllIdAccount();
+    }
+
+    public Account getAccount(long id) {
+        return cr.getAr().getById(id);
+    }
 }
