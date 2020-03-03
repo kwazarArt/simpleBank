@@ -1,15 +1,10 @@
 package main.java.com.kwazarart.simplebank.controller;
 
 import main.java.com.kwazarart.simplebank.model.Account;
-import main.java.com.kwazarart.simplebank.model.AccountStatus;
 import main.java.com.kwazarart.simplebank.model.Customer;
-import main.java.com.kwazarart.simplebank.repository.AccountRepository;
 import main.java.com.kwazarart.simplebank.repository.CustomerRepository;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Scanner;
 
 public class CustomersController {
     private CustomerRepository cr = new CustomerRepository();

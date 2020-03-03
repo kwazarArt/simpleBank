@@ -7,13 +7,15 @@ import main.java.com.kwazarart.simplebank.model.Transaction;
 import main.java.com.kwazarart.simplebank.model.TransactionStatus;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TransactionsView {
     TransactionsController tc = new TransactionsController();
 
-    public void viewTransactionsMenu() throws ParseException {
+    public void viewTransactionsMenu() {
         while (true) {
             String choice;
             int x;
@@ -55,11 +57,11 @@ public class TransactionsView {
         }
     }
 
-    public void viewCreateTransaction() {
+    private void viewCreateTransaction() {
         tc.controlCreate(newTransaction());
     }
 
-    public void viewPrintTransaction() throws ParseException {
+    private void viewPrintTransaction() {
         System.out.print("Transaction. ");
         long id = findId();
         List<Transaction> list = tc.controlPrinById(id);
@@ -68,25 +70,27 @@ public class TransactionsView {
         }
     }
 
-    public void viewUpdateTransaction() {
+    private void viewUpdateTransaction() {
         System.out.print("Transactions. ");
-        long id = findId();
-        List<Long> listIdAccount = tc.getIdAccounts();
+        long id;
+        Set<Long> listIdAccount = tc.getIdAccounts();
         System.out.print("Choice ID account. ");
+        Transaction transaction;
         do{
-            id = findId();
-        } while (!listIdAccount.contains(id));
-
-
-
+            transaction = newTransaction();
+        } while (!listIdAccount.contains(transaction.getAccount().getId()));
+        transaction.setStatus(TransactionStatus.RETURNED);
+        tc.controlUpdate(transaction);
     }
 
-    public void viewDeleteTransaction() {
-
+    private void viewDeleteTransaction() {
+        // не реализовано, так как запросами sql проще пользоваться
     }
 
-    public void viewAllTransactions() {
-
+    private void viewAllTransactions() {
+        List<Transaction> list = tc.getAllTransactions();
+        for (Transaction transaction : list)
+            System.out.println(transaction);
     }
 
     private long findId() {
@@ -117,7 +121,7 @@ public class TransactionsView {
                 System.out.print("Wrong input - " + e.getCause() + "\nTry again: ");
             }
         }
-        List<Long> listIdAccount = tc.getIdAccounts();
+        Set<Long> listIdAccount = tc.getIdAccounts();
         System.out.println("Current ID account:");
         for (Long id : listIdAccount) {
             System.out.println("\t" + id);
@@ -129,8 +133,16 @@ public class TransactionsView {
             id = findId();
         } while (!listIdAccount.contains(id));
         Account account = tc.getAccount(id);
-        Date date = new Date();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+        String strDate = sdf.format(new Date());
+        Date date = null;
+        try {
+            date = sdf.parse(strDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(date);
         transaction.setAmount(amount);
         transaction.setAccount(account);
         transaction.setCreated(date);

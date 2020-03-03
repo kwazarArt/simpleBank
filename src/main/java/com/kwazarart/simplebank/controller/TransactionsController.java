@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class TransactionsController {
     private TransactionsRepository tr = new TransactionsRepository();
@@ -16,7 +17,7 @@ public class TransactionsController {
         tr.save(transaction);
     }
 
-    public List<Transaction> controlPrinById(long id) throws ParseException {
+    public List<Transaction> controlPrinById(long id){
         return tr.getTransactions(id);
     }
 
@@ -28,7 +29,7 @@ public class TransactionsController {
         tr.deleteById(id, date);
     }
 
-    public List<Transaction> getAllTransactions() throws ParseException {
+    public List<Transaction> getAllTransactions()  {
         return tr.getAll();
     }
 
@@ -36,7 +37,7 @@ public class TransactionsController {
         return tr.getAr().getById(id);
     }
 
-    public List<Long> getIdAccounts() {
+    public Set<Long> getIdAccounts() {
         return tr.getAllIdAccount();
     }
 

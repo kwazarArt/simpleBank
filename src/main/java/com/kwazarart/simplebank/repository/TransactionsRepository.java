@@ -9,9 +9,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class TransactionsRepository {
 
@@ -27,7 +25,7 @@ public class TransactionsRepository {
         }
     }
 
-    public List<Transaction> getAll() throws ParseException {
+    public List<Transaction> getAll() {
         List<Transaction> transactions = new LinkedList<>();
         List<String> transactionString = readTransacions();
         for (int i = 0; i < transactionString.size(); i++) {
@@ -37,9 +35,10 @@ public class TransactionsRepository {
         return transactions;
     }
 
-    public List<Transaction> getTransactions(long idAccount) throws ParseException {
+    public List<Transaction> getTransactions(long idAccount)  {
         List<Transaction> listForOneId = new LinkedList<>();
-        List<Transaction> listAllAccounts = getAll();
+        List<Transaction> listAllAccounts = null;
+        listAllAccounts = getAll();
         for (Transaction transaction : listAllAccounts) {
             long id = transaction.getAccount().getId();
             if (id == idAccount)
@@ -92,10 +91,16 @@ public class TransactionsRepository {
                 + transaction.getStatus();
     }
 
-    private Transaction stringToTransaction(String transactionString[]) throws ParseException {
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        date = sdf.parse(transactionString[4]);
+    private Transaction stringToTransaction(String transactionString[]){
+
+        SimpleDateFormat sdf  = new SimpleDateFormat("E MMM MM HH:mm:ss zzz YYYY", Locale.US);
+        Date date = null;
+        try {
+            date = sdf.parse(transactionString[4]);
+        } catch (ParseException e) {
+            System.out.println("Wrong date!");
+            e.printStackTrace();
+        }
         return new Transaction(new BigDecimal(transactionString[0]),
                 new Account(Long.parseLong(transactionString[1]),
                             new BigDecimal(transactionString[2]),
@@ -132,7 +137,12 @@ public class TransactionsRepository {
         return ar;
     }
 
-    public List<Long> getAllIdAccount() {
-        return ar.getIdAccounts();
+    public Set<Long> getAllIdAccount() {
+        List<Transaction> listTransactions = getAll();
+        Set<Long> listLong = new LinkedHashSet<>();
+        for (Transaction transaction : listTransactions){
+            listLong.add(transaction.getAccount().getId());
+        }
+        return listLong;
     }
 }

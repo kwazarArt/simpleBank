@@ -13,7 +13,7 @@ public class ConsoleHelper {
     private CustomerView cv = new CustomerView();
     private TransactionsView tv = new TransactionsView();
 
-    public void start() throws IOException, ParseException {
+    public void start() {
         while (true) {
             String choice;
             int x;

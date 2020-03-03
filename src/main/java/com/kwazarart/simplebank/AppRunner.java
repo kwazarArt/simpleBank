@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 public class AppRunner {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException {
 
         ConsoleHelper ch = new ConsoleHelper();
         ch.start();
