@@ -13,8 +13,8 @@ public class CustomersController {
         cr.save(customer);
     }
 
-    public void controlPrintById(long x) {
-        System.out.println(cr.getById(x));
+    public Customer controlPrintById(long x) {
+        return cr.getById(x);
     }
 
     public void controlUpdate(Customer customer) {

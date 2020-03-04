@@ -23,12 +23,10 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "firstName='" + firstName + '\'' +
-                ", secondName='" + secondName + '\'' +
-                ", account=" + account +
-                ", id=" + id +
-                '}';
+        return id + "\t" +
+                firstName + "\t" +
+                secondName + "\t" +
+                account.getId();
     }
 
     public String getFirstName() {

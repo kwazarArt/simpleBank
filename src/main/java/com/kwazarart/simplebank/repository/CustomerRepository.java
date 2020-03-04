@@ -6,6 +6,7 @@ import main.java.com.kwazarart.simplebank.model.Customer;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,15 +71,6 @@ public class CustomerRepository {
             String line[] = customerString.get(i).split("\t");
             if (line[0].equals(String.valueOf(id))) {
                 customerString.remove(i);
-                line[3] = null;
-                line[4] = null;
-                line[5] = null;
-                customerString.add(i, line[0] +
-                                "\t" + line[1] +
-                                "\t" + line[2] +
-                                "\t" + line[3] +
-                                "\t" + line[4] +
-                                "\t" + line[5]);
             }
         }
         writeToRepo(customerString);
@@ -95,23 +87,22 @@ public class CustomerRepository {
     }
 
     private Customer stringToCustomer(String customerString[]) {
-        if (customerString[3].equals("null") || customerString[4].equals("null") || customerString[5].equals("null"))
+        Account account = getAr().getById(Long.parseLong(customerString[3]));
+        if (customerString[3].equals("null"))
             return new Customer(Long.parseLong(customerString[0]),
                     customerString[1],
                     customerString[2], null);
         return new Customer(Long.parseLong(customerString[0]),
                 customerString[1],
                 customerString[2],
-                new Account(Long.parseLong(customerString[3]),
-                        new BigDecimal(customerString[4]),
-                        AccountStatus.valueOf(customerString[5])));
+                account);
     }
 
     private String customerToString(Customer customer) {
-        return String.valueOf(customer.getId()) +
+        return customer.getId() +
                 "\t" + customer.getFirstName() +
                 "\t" + customer.getSecondName() +
-                "\t" + customer.getAccount().toString();
+                "\t" + customer.getAccount().getId();
     }
 
     private List<String> readCustomers() {
@@ -128,9 +119,20 @@ public class CustomerRepository {
         return null;
     }
 
-    public long searchMaxIndex() {
-        List<String> customersLines = readCustomers();
-        return customersLines.size() + 1;
+    private long searchMaxIndex() {
+        List<Customer> customersLines = getAll();
+        if (customersLines.size() == 0) return 1;
+        List<Long> listId = new ArrayList<>();
+        for (Customer customer : customersLines) {
+            listId.add(customer.getId());
+        }
+        long maxId = listId.get(0);
+        for (int i = 1; i < listId.size(); i++) {
+            if (maxId < listId.get(i)) {
+                maxId = listId.get(i);
+            }
+        }
+        return maxId + 1;
     }
 
     public AccountRepository getAr() {

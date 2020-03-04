@@ -4,16 +4,15 @@ import main.java.com.kwazarart.simplebank.controller.CustomersController;
 import main.java.com.kwazarart.simplebank.model.Account;
 import main.java.com.kwazarart.simplebank.model.AccountStatus;
 import main.java.com.kwazarart.simplebank.model.Customer;
-import main.java.com.kwazarart.simplebank.repository.CustomerRepository;
+import main.java.com.kwazarart.simplebank.model.Transaction;
 
-import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class CustomerView {
+class CustomerView {
     private CustomersController cc = new CustomersController();
-    public void viewCustomerMenu(){
+    void viewCustomerMenu(){
         while (true) {
             String choice;
             int x;
@@ -55,15 +54,15 @@ public class CustomerView {
         }
     }
 
-    public void viewCreateCustomer() {
+    private void viewCreateCustomer() {
         cc.controlCreate(newCustomer());
     }
 
-    public void viewPrintCustomer() {
-        cc.controlPrintById(findId());
+    private void viewPrintCustomer() {
+        System.out.println(cc.controlPrintById(findId()));
     }
 
-    public void viewUpdateCustomer() {
+    private void viewUpdateCustomer() {
         System.out.print("Customer. ");
         long id = findId();
         Customer customer = newCustomer();
@@ -71,15 +70,15 @@ public class CustomerView {
         cc.controlUpdate(customer);
     }
 
-    public void viewDeleteCustomer() {
+    private void viewDeleteCustomer() {
         System.out.println("Which customer will be deleted?");
         cc.controlDeelte(findId());
     }
 
-    public void viewAllCustomer() {
+    private void viewAllCustomer() {
         List<Customer> list = cc.controlPrintAll();
         for (Customer line : list) {
-            System.out.println(line.getId() + "\t" + line.getFirstName() + "\t" + line.getSecondName() + "\t" + line.getAccount());
+            System.out.println(line.getId() + "\t" + line.getFirstName() + "\t" + line.getSecondName() + "\t" + line.getAccount().getId());
         }
     }
 
