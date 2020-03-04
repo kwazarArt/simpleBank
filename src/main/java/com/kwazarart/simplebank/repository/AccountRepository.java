@@ -2,9 +2,11 @@ package main.java.com.kwazarart.simplebank.repository;
 
 import main.java.com.kwazarart.simplebank.model.Account;
 import main.java.com.kwazarart.simplebank.model.AccountStatus;
+import main.java.com.kwazarart.simplebank.model.Customer;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -109,8 +111,19 @@ public class AccountRepository {
     }
 
     public long searchMaxIndex() {
-        List<String> accountLines = readAccounts();
-        return accountLines.size() + 1;
+        List<Account> accountLines = getAll();
+        if (accountLines.size() == 0) return 1;
+        List<Long> listId = new ArrayList<>();
+        for (Account account : accountLines) {
+            listId.add(account.getId());
+        }
+        long maxId = listId.get(0);
+        for (int i = 1; i < listId.size(); i++) {
+            if (maxId < listId.get(i)) {
+                maxId = listId.get(i);
+            }
+        }
+        return maxId + 1;
     }
 
     public List<Long> getIdAccounts() {
