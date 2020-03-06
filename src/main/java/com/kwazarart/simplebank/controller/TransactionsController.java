@@ -25,8 +25,8 @@ public class TransactionsController {
         tr.update(transaction);
     }
 
-    public void controlDelete(long id, Date date) {
-        tr.deleteById(id, date);
+    public void controlDelete(long id) {
+        tr.deleteById(id);
     }
 
     public List<Transaction> getAllTransactions()  {

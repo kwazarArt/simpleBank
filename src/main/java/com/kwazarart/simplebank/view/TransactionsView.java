@@ -84,7 +84,7 @@ public class TransactionsView {
     }
 
     private void viewDeleteTransaction() {
-        // не реализовано, так как запросами sql проще пользоваться
+        tc.controlDelete(findId());
     }
 
     private void viewAllTransactions() {

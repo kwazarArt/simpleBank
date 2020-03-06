@@ -66,11 +66,11 @@ public class TransactionsRepository {
         }
     }
 
-    public void deleteById(long id, Date date) {
+    public void deleteById(long id) {
         List<String> transactionString = readTransacions();
         for (int i = 0; i < transactionString.size(); i++) {
             String line[] = transactionString.get(i).split("\t");
-            if (line[1].equals(String.valueOf(id)) && line[4].equals(date)) {
+            if (line[1].equals(String.valueOf(id))) {
                 transactionString.remove(i);
                 line[5] = "BLOCKED";
                 transactionString.add(i, line[0] +
